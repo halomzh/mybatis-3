@@ -15,28 +15,41 @@
  */
 package org.apache.ibatis.transaction.jdbc;
 
-import java.sql.Connection;
-
-import javax.sql.DataSource;
-
 import org.apache.ibatis.session.TransactionIsolationLevel;
 import org.apache.ibatis.transaction.Transaction;
 import org.apache.ibatis.transaction.TransactionFactory;
 
+import javax.sql.DataSource;
+import java.sql.Connection;
+
 /**
+ * JDBC事务工厂
  * Creates {@link JdbcTransaction} instances.
  *
  * @author Clinton Begin
- *
  * @see JdbcTransaction
  */
 public class JdbcTransactionFactory implements TransactionFactory {
 
+  /**
+   * 新建事务
+   *
+   * @param conn Existing database connection 已存在的事务连接
+   * @return 事务
+   */
   @Override
   public Transaction newTransaction(Connection conn) {
     return new JdbcTransaction(conn);
   }
 
+  /**
+   * 新建事务
+   *
+   * @param ds         数据源
+   * @param level      Desired isolation level 事务隔离级别
+   * @param autoCommit Desired autocommit 是否自动提交
+   * @return
+   */
   @Override
   public Transaction newTransaction(DataSource ds, TransactionIsolationLevel level, boolean autoCommit) {
     return new JdbcTransaction(ds, level, autoCommit);
